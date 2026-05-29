@@ -1,1 +1,4 @@
-Natural language Processing
+streamlit
+nltk
+scikit-learn
+PyPDF2
