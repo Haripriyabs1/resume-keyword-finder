@@ -56,18 +56,19 @@ if st.button("Calculate Similarity"):
     elif not resume:
         st.warning("Please upload your resume.") 
     else:
-        job_text=preprocessing(job_text)
-        resume_text=preprocessing(resume_text)
-        documents=[job_text,resume_text]
-        vectorizer=TfidfVectorizer()
-        tfidf_matrix=vectorizer.fit_transform(documents)
-        similarity_score=cosine_similarity(tfidf_matrix[0:1],tfidf_matrix[1:2])
-        score=similarity_score[0][0]*100
-        st.write("Similarity Score:",score)
-        if score>80:
-            st.success("Great match! Your resume is well-aligned with the job description.")
-        elif score>50:
-            st.warning("Good match! Consider tailoring your resume more to the job description.")
-        else:
-            st.error("Poor match! Consider revising your resume to better fit the job description.")
-        
+        with st.spinner("Analyzing resume..."):
+            job_text=preprocessing(job_text)
+            resume_text=preprocessing(resume_text)
+            documents=[job_text,resume_text]
+            vectorizer=TfidfVectorizer()
+            tfidf_matrix=vectorizer.fit_transform(documents)
+            similarity_score=cosine_similarity(tfidf_matrix[0:1],tfidf_matrix[1:2])
+            score=similarity_score[0][0]*100
+            st.write(f"Similarity Score: {score:.2f}%")
+            if score>80:
+                st.success("Great match! Your resume is well-aligned with the job description.")
+            elif score>50:
+                st.warning("Good match! Consider tailoring your resume more to the job description.")
+            else:
+                st.error("Poor match! Consider revising your resume to better fit the job description.")
+            
